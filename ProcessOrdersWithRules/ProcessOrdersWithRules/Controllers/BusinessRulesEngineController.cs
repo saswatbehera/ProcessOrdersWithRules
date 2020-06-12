@@ -21,9 +21,9 @@ namespace ProcessOrdersWithRules.Controllers
             return "Order Processed Sucessfully";
         }
 
-        private void MapExecutables(Product p, int orderId, bool isExecute, ref Executables exq)
+        public void MapExecutables(Product p, int orderId, bool isExecute, ref Executables exq)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

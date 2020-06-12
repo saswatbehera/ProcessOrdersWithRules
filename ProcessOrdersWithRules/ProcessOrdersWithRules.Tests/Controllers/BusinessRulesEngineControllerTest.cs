@@ -28,10 +28,19 @@ namespace ProcessOrdersWithRules.Tests.Controllers
             BusinessRulesEngineController controller = new BusinessRulesEngineController();
 
             // Act
-            string strMessage = controller.ProcessOrder(orderId,IsExecute);
+            controller.MapExecutables(p, orderId, IsExecute, ref exq);
 
             // Assert
-            Assert.AreEqual(strMessage, "Order Processed Sucessfully");
+            Assert.IsTrue(exq.IsPacking);
+            Assert.IsNotNull(exq.Products);
+            Assert.AreEqual(exq.Products.Count, 1);
+            Assert.IsTrue(exq.IsPackingSlipRequired);
+            Assert.IsNotNull(exq.PackingSlips);
+            Assert.AreEqual(exq.PackingSlips.Count, 2);
+            Assert.IsTrue(exq.IsPhysicalProduct);
+            Assert.IsTrue(exq.AgentCommission > 0);
+            Assert.IsFalse(exq.IsMembership);
+            Assert.IsNull(exq.MembershipType);
         }
 
 
