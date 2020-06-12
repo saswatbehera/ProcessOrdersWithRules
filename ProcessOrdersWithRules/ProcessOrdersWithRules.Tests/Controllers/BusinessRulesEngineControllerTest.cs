@@ -27,10 +27,10 @@ namespace ProcessOrdersWithRules.Tests.Controllers
             p = GetProducts().products.FirstOrDefault(x => x.ProductId == o.ProductId);
 
             Executables exq = new Executables();
-            BusinessRulesEngineController controller = new BusinessRulesEngineController();
+            BusinessLogic b = new BusinessLogic();
 
             // Act
-            controller.MapExecutables(p, orderId, IsExecute, ref exq);
+            b.MapExecutables(p, orderId, IsExecute, ref exq);
 
             // Assert
             Assert.IsTrue(exq.IsPacking);
