@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 
 namespace ProcessOrdersWithRules.Controllers
 {
-    public class HomeController : Controller
+    public class BusinessRulesEngineController : ApiController
     {
-        public ActionResult Index()
+        public string ProcessOrder()
         {
-            ViewBag.Title = "Home Page";
-
-            return View();
+            return "Order Processed Sucessfully";
         }
     }
 }

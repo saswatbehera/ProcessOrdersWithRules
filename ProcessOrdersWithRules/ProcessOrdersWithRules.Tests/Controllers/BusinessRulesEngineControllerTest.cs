@@ -6,20 +6,19 @@ using ProcessOrdersWithRules.Controllers;
 namespace ProcessOrdersWithRules.Tests.Controllers
 {
     [TestClass]
-    public class HomeControllerTest
+    public class BusinessRulesEngineControllerTest
     {
         [TestMethod]
-        public void Index()
+        public void ProcessOrder()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            BusinessRulesEngineController controller = new BusinessRulesEngineController();
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            string strMessage = controller.ProcessOrder();
 
             // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual("Home Page", result.ViewBag.Title);
+            Assert.AreEqual(strMessage, "Order Processed Sucessfully");
         }
     }
 }
