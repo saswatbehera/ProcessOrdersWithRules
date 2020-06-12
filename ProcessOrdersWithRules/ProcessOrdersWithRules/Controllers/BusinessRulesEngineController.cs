@@ -48,6 +48,29 @@ namespace ProcessOrdersWithRules.Controllers
 
             return ps;
         }
+
+
+        [HttpGet]
+        [Route("OrderProcess/GetOrders")]
+        public Orders GetOrders(int OrderId = 0)
+        {
+            BusinessLogic b = new BusinessLogic();
+
+            Orders os = new Orders();
+            if (OrderId > 0)
+            {
+                Order o = new Order();
+                o = b.GetOrders().orders.FirstOrDefault(x => x.OrderId == OrderId);
+                os.orders = new List<Order>();
+                os.orders.Add(o);
+            }
+            else
+            {
+                os = b.GetOrders();
+            }
+
+            return os;
+        }
         #endregion Routes
     }
 }
