@@ -154,10 +154,10 @@ namespace ProcessOrdersWithRules.Models
             exq.Products = products;
 
             List<string> slips = new List<string>();
-            slips.Add(CustomerShipping);
+            slips.Add(PackingSlip.CustomerShipping.ToString());
             if (p.IsBookProduct)
             {
-                slips.Add(RoyaltyDepartment);
+                slips.Add(PackingSlip.RoyaltyDepartment.ToString());
             }
             exq.PackingSlips = slips;
 
