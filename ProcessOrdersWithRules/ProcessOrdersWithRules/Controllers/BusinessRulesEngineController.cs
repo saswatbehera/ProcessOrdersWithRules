@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Http;
-using System.Web.Mvc;
 
 namespace ProcessOrdersWithRules.Controllers
 {
@@ -21,6 +19,7 @@ namespace ProcessOrdersWithRules.Controllers
             return "Order Processed Sucessfully";
         }
 
+        #region Public Methods
 
         /// <summary>
         /// This is the method targeted by Unit Tests.
@@ -40,6 +39,9 @@ namespace ProcessOrdersWithRules.Controllers
             }
         }
 
+        #endregion Public Methods
+
+        #region Private Methods
 
         /// <summary>
         /// This is the Final Execution Method.
@@ -69,108 +71,6 @@ namespace ProcessOrdersWithRules.Controllers
                 ApplyTheMembershipAndSendEmail(exq.MembershipType);
             }
         }
-
-
-        /// <summary>
-        /// As per Requirement, this method will Activate or Upgrade Membership
-        /// The Send Email logic will be written here
-        /// Skipping the Implementation intentionaly
-        /// </summary>
-        /// <param name="membershipType"></param>
-        private void ApplyTheMembershipAndSendEmail(List<string> membershipType)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// As per Requirement, this method will Generate a Commission Payment
-        /// Commission Payment is for the Physical Products
-        /// Skipping the Implementation intentionaly
-        /// </summary>
-        /// <param name="agentCommission"></param>
-        /// <param name="orderId"></param>
-        private void GenerateCommissionPayment(int agentCommission, int orderId)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// As per Requirement, this method will Send Product List to Packing and Shipping Department
-        /// Product List may contain multiple items, as Free "First Aid" Video is given with "Learning to Ski" Video
-        /// Skipping the Implementation intentionaly
-        /// </summary>
-        /// <param name="products"></param>
-        /// <param name="orderId"></param>
-        private void SendToPackingDepartment(List<Product> products, int orderId)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// As per Requirement, this method will Generate Packing Slips
-        /// Packing Slips can be of 2 types in case of Books, CustomerShipping or RoyaltyDepartment
-        /// Skipping the Implementation intentionaly 
-        /// </summary>
-        /// <param name="packingSlips"></param>
-        /// <param name="orderId"></param>
-        private void GeneratePackingSlips(List<string> packingSlips, int orderId)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        /// <summary>
-        /// The Main Business Rules will be Applied here
-        /// Rule 1: If Physical Product, Customer Packing Slips Generated
-        /// Rule 2: If Physical Product, Agent Commission Payment need to created
-        /// Rule 3: If Membership Product, Membership either need to be Activated or Upgraded
-        /// Rule 4: If Membership Product send a mail to customer also
-        /// Rule 5: If "Learning to Ski" Video, then "First Aid" video is free with it
-        /// Rule 6: If Book then additional Royalty Department Packing slip need to be generated.
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        private Executables ApplyBusinessRules(Product p)
-        {
-            Executables exq = new Executables();
-            if (p.IsPhysicalProduct)
-            {
-                exq.IsPacking = true;
-                exq.IsPhysicalProduct = true;
-                exq.IsPackingSlipRequired = true;
-                exq.AgentCommission = (int)(p.ProductPrice / 100) * 5;
-            }
-
-            if (p.IsMembershipProduct)
-            {
-                exq.IsMembership = true;
-                exq.MembershipType.Add(p.ProductMembershipType);
-            }
-
-            List<Product> products = new List<Product>();
-            products.Add(p);
-            if (p.IsVideoProduct && p.ProductName == "Learning to Ski")
-            {
-                Product p1 = new Product();
-                p1 = FetchProducts().FirstOrDefault(x => x.ProductName == "First Aid");
-                products.Add(p1);
-            }
-            exq.Products = products;
-
-            List<string> slips = new List<string>();
-            slips.Add("CustomerShipping");
-            if (p.IsBookProduct)
-            {
-                slips.Add("RoyaltyDepartment");
-            }
-            exq.PackingSlips = slips;
-
-            return exq;
-        }
-
 
         /// <summary>
         /// This needs to be fetched from somekind of Repository
@@ -287,7 +187,6 @@ namespace ProcessOrdersWithRules.Controllers
             return products;
         }
 
-
         /// <summary>
         /// This needs to be fetched from somekind of Repository
         /// Here, Just mocked the data
@@ -342,5 +241,110 @@ namespace ProcessOrdersWithRules.Controllers
 
             return orders;
         }
+
+        /// <summary>
+        /// The Main Business Rules will be Applied here
+        /// Rule 1: If Physical Product, Customer Packing Slips Generated
+        /// Rule 2: If Physical Product, Agent Commission Payment need to created
+        /// Rule 3: If Membership Product, Membership either need to be Activated or Upgraded
+        /// Rule 4: If Membership Product send a mail to customer also
+        /// Rule 5: If "Learning to Ski" Video, then "First Aid" video is free with it
+        /// Rule 6: If Book then additional Royalty Department Packing slip need to be generated.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        private Executables ApplyBusinessRules(Product p)
+        {
+            Executables exq = new Executables();
+            if (p.IsPhysicalProduct)
+            {
+                exq.IsPacking = true;
+                exq.IsPhysicalProduct = true;
+                exq.IsPackingSlipRequired = true;
+                exq.AgentCommission = (int)(p.ProductPrice / 100) * 5;
+            }
+
+            if (p.IsMembershipProduct)
+            {
+                exq.IsMembership = true;
+                exq.MembershipType.Add(p.ProductMembershipType);
+            }
+
+            List<Product> products = new List<Product>();
+            products.Add(p);
+            if (p.IsVideoProduct && p.ProductName == "Learning to Ski")
+            {
+                Product p1 = new Product();
+                p1 = FetchProducts().FirstOrDefault(x => x.ProductName == "First Aid");
+                products.Add(p1);
+            }
+            exq.Products = products;
+
+            List<string> slips = new List<string>();
+            slips.Add("CustomerShipping");
+            if (p.IsBookProduct)
+            {
+                slips.Add("RoyaltyDepartment");
+            }
+            exq.PackingSlips = slips;
+
+            return exq;
+        }
+
+        #endregion Private Methods
+
+        #region Skipped Methods
+
+        /// <summary>
+        /// As per Requirement, this method will Activate or Upgrade Membership
+        /// The Send Email logic will be written here
+        /// Skipping the Implementation intentionaly
+        /// </summary>
+        /// <param name="membershipType"></param>
+        private void ApplyTheMembershipAndSendEmail(List<string> membershipType)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// As per Requirement, this method will Generate a Commission Payment
+        /// Commission Payment is for the Physical Products
+        /// Skipping the Implementation intentionaly
+        /// </summary>
+        /// <param name="agentCommission"></param>
+        /// <param name="orderId"></param>
+        private void GenerateCommissionPayment(int agentCommission, int orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// As per Requirement, this method will Send Product List to Packing and Shipping Department
+        /// Product List may contain multiple items, as Free "First Aid" Video is given with "Learning to Ski" Video
+        /// Skipping the Implementation intentionaly
+        /// </summary>
+        /// <param name="products"></param>
+        /// <param name="orderId"></param>
+        private void SendToPackingDepartment(List<Product> products, int orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// As per Requirement, this method will Generate Packing Slips
+        /// Packing Slips can be of 2 types in case of Books, CustomerShipping or RoyaltyDepartment
+        /// Skipping the Implementation intentionaly 
+        /// </summary>
+        /// <param name="packingSlips"></param>
+        /// <param name="orderId"></param>
+        private void GeneratePackingSlips(List<string> packingSlips, int orderId)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion Skipped Methods
     }
 }

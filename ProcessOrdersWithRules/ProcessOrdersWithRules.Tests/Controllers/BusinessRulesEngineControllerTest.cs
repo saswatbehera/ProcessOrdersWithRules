@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProcessOrdersWithRules;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProcessOrdersWithRules.Controllers;
 using ProcessOrdersWithRules.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProcessOrdersWithRules.Tests.Controllers
 {
