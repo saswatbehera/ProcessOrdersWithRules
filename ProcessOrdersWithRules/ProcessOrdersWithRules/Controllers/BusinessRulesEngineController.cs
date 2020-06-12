@@ -70,26 +70,63 @@ namespace ProcessOrdersWithRules.Controllers
             }
         }
 
+
+        /// <summary>
+        /// As per Requirement, this method will Activate or Upgrade Membership
+        /// The Send Email logic will be written here
+        /// Skipping the Implementation intentionaly
+        /// </summary>
+        /// <param name="membershipType"></param>
         private void ApplyTheMembershipAndSendEmail(List<string> membershipType)
         {
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// As per Requirement, this method will Generate a Commission Payment
+        /// Commission Payment is for the Physical Products
+        /// Skipping the Implementation intentionaly
+        /// </summary>
+        /// <param name="agentCommission"></param>
+        /// <param name="orderId"></param>
         private void GenerateCommissionPayment(int agentCommission, int orderId)
         {
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// As per Requirement, this method will Send Product List to Packing and Shipping Department
+        /// Product List may contain multiple items, as Free First Aid Video is given with Learning to Ski Video
+        /// Skipping the Implementation intentionaly
+        /// </summary>
+        /// <param name="products"></param>
+        /// <param name="orderId"></param>
         private void SendToPackingDepartment(List<Product> products, int orderId)
         {
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// As per Requirement, this method will Generate Packing Slips
+        /// Packing Slips can be of 2 types in case of Books, CustomerShipping or RoyaltyDepartment
+        /// Skipping the Implementation intentionaly 
+        /// </summary>
+        /// <param name="packingSlips"></param>
+        /// <param name="orderId"></param>
         private void GeneratePackingSlips(List<string> packingSlips, int orderId)
         {
             throw new NotImplementedException();
         }
 
+
+        /// <summary>
+        /// The Main Business Rules will be Applied here
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         private Executables ApplyBusinessRules(Product p)
         {
             throw new NotImplementedException();
