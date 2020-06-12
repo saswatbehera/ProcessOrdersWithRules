@@ -6,22 +6,25 @@ namespace ProcessOrdersWithRules.Controllers
 {
     public class BusinessRulesEngineController : ApiController
     {
-        public string ProcessOrder(int orderId, bool isExecute)
+        #region Routes
+        [HttpPost]
+        [Route("OrderProcess/ProcessSingleOrder")]
+        public string ProcessSingleOrder(int OrderId, bool IsExecute = false)
         {
             BusinessLogic b = new BusinessLogic();
 
             Order o = new Order();
-            o = b.GetOrders().orders.FirstOrDefault(x => x.OrderId == orderId);
+            o = b.GetOrders().orders.FirstOrDefault(x => x.OrderId == OrderId);
 
             Product p = new Product();
             p = b.GetProducts().products.FirstOrDefault(x => x.ProductId == o.ProductId);
 
             Executables exq = new Executables();
-            b.MapExecutables(p, orderId, isExecute, ref exq);
+            b.MapExecutables(p, OrderId, IsExecute, ref exq);
 
             return "Order Processed Sucessfully";
         }
 
-       
+        #endregion Routes
     }
 }
