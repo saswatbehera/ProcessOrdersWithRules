@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ProcessOrdersWithRules.Controllers;
 using ProcessOrdersWithRules.Models;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
@@ -14,7 +12,7 @@ namespace ProcessOrdersWithRules.Tests.Controllers
         #region Public Methods
 
         [TestMethod]
-        public void ProcessOrder()
+        public void ProcessSingleOrderTest()
         {
             // Arrange
             int orderId = 1;
@@ -31,6 +29,7 @@ namespace ProcessOrdersWithRules.Tests.Controllers
 
             // Act
             b.MapExecutables(p, orderId, IsExecute, ref exq);
+
 
             // Assert
             Assert.IsTrue(exq.IsPacking);

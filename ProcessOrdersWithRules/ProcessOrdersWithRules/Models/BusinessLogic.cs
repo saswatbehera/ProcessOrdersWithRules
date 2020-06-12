@@ -8,6 +8,13 @@ namespace ProcessOrdersWithRules.Models
 {
     public class BusinessLogic
     {
+        #region Variables
+        public static string LearningtoSki = "Learning to Ski";
+        public static string FirstAid = "First Aid";
+        public static string CustomerShipping = "CustomerShipping";
+        public static string RoyaltyDepartment = "RoyaltyDepartment";
+        #endregion Variables
+
         #region Public Methods
 
         /// <summary>
@@ -138,19 +145,19 @@ namespace ProcessOrdersWithRules.Models
 
             List<Product> products = new List<Product>();
             products.Add(p);
-            if (p.IsVideoProduct && p.ProductName == "Learning to Ski")
+            if (p.IsVideoProduct && p.ProductName == LearningtoSki)
             {
                 Product p1 = new Product();
-                p1 = GetProducts().products.FirstOrDefault(x => x.ProductName == "First Aid");
+                p1 = GetProducts().products.FirstOrDefault(x => x.ProductName == FirstAid);
                 products.Add(p1);
             }
             exq.Products = products;
 
             List<string> slips = new List<string>();
-            slips.Add("CustomerShipping");
+            slips.Add(CustomerShipping);
             if (p.IsBookProduct)
             {
-                slips.Add("RoyaltyDepartment");
+                slips.Add(RoyaltyDepartment);
             }
             exq.PackingSlips = slips;
 
