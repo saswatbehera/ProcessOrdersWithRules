@@ -1,4 +1,6 @@
-﻿namespace ProcessOrdersWithRules.Models
+﻿using System.Collections.Generic;
+
+namespace ProcessOrdersWithRules.Models
 {
     public class Product
     {
@@ -10,6 +12,11 @@
         public bool IsBookProduct { get; set; }
         public int ProductPrice { get; set; }
         public string ProductMembershipType { get; set; }
+    }
+
+    public class Products
+    {
+        public List<Product> products { get; set; }
     }
 
     enum PackingSlip

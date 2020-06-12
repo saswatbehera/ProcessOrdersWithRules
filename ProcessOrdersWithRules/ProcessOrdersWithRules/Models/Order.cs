@@ -1,4 +1,6 @@
-﻿namespace ProcessOrdersWithRules.Models
+﻿using System.Collections.Generic;
+
+namespace ProcessOrdersWithRules.Models
 {
     public class Order
     {
@@ -8,5 +10,10 @@
         public string CustomerDetails { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
+    }
+
+    public class Orders
+    {
+        public List<Order> orders { get; set; }
     }
 }
