@@ -1,7 +1,9 @@
 ﻿using ProcessOrdersWithRules.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Web.Http;
 
 namespace ProcessOrdersWithRules.Controllers
@@ -77,113 +79,23 @@ namespace ProcessOrdersWithRules.Controllers
         /// Here, Just mocked the data
         /// </summary>
         /// <returns>List<Product></returns>
-        private List<Product> FetchProducts()
+        private Products GetProducts()
         {
-            List<Product> products = new List<Product>();
-            Product p = new Product
-            {
-                ProductId = 1,
-                ProductName = "Meluha",
-                IsPhysicalProduct = true,
-                IsMembershipProduct = false,
-                IsVideoProduct = false,
-                IsBookProduct = true,
-                ProductPrice = 700,
-                ProductMembershipType = ""
-            };
-            products.Add(p);
+            string json = "{\"products\":[" +
+                "{\"ProductId\":1,\"ProductName\":\"Meluha\",\"IsPhysicalProduct\":true,\"IsMembershipProduct\":false,\"IsVideoProduct\":false,\"IsBookProduct\":true,\"ProductPrice\":700,\"ProductMembershipType\":\"\"}," +
+                "{\"ProductId\":2,\"ProductName\":\"Sherlock Holmes\",\"IsPhysicalProduct\":true,\"IsMembershipProduct\":false,\"IsVideoProduct\":false,\"IsBookProduct\":true,\"ProductPrice\":500,\"ProductMembershipType\":\"\"}," +
+                "{\"ProductId\":3,\"ProductName\":\"Nagas\",\"IsPhysicalProduct\":true,\"IsMembershipProduct\":false,\"IsVideoProduct\":false,\"IsBookProduct\":true,\"ProductPrice\":900,\"ProductMembershipType\":\"\"}," +
+                "{\"ProductId\":4,\"ProductName\":\"Activate Membership\",\"IsPhysicalProduct\":false,\"IsMembershipProduct\":true,\"IsVideoProduct\":false,\"IsBookProduct\":false,\"ProductPrice\":500,\"ProductMembershipType\":\"Activate\"}," +
+                "{\"ProductId\":5,\"ProductName\":\"Upgrade Membership\",\"IsPhysicalProduct\":false,\"IsMembershipProduct\":true,\"IsVideoProduct\":false,\"IsBookProduct\":false,\"ProductPrice\":100,\"ProductMembershipType\":\"Upgrade\"}," +
+                "{\"ProductId\":6,\"ProductName\":\"Learning to Ski\",\"IsPhysicalProduct\":true,\"IsMembershipProduct\":false,\"IsVideoProduct\":true,\"IsBookProduct\":false,\"ProductPrice\":200,\"ProductMembershipType\":\"\"}," +
+                "{\"ProductId\":7,\"ProductName\":\"First Aid\",\"IsPhysicalProduct\":true,\"IsMembershipProduct\":false,\"IsVideoProduct\":true,\"IsBookProduct\":false,\"ProductPrice\":50,\"ProductMembershipType\":\"\"}," +
+                "{\"ProductId\":8,\"ProductName\":\"Sholay\",\"IsPhysicalProduct\":true,\"IsMembershipProduct\":false,\"IsVideoProduct\":true,\"IsBookProduct\":false,\"ProductPrice\":100,\"ProductMembershipType\":\"\"}]}";
 
-            p = new Product
-            {
-                ProductId = 2,
-                ProductName = "Sherlock Holmes",
-                IsPhysicalProduct = true,
-                IsMembershipProduct = false,
-                IsVideoProduct = false,
-                IsBookProduct = true,
-                ProductPrice = 500,
-                ProductMembershipType = ""
-            };
-            products.Add(p);
+            MemoryStream ms = new MemoryStream(System.Text.ASCIIEncoding.ASCII.GetBytes(json));
+            ms.Position = 0;
 
-            p = new Product
-            {
-                ProductId = 3,
-                ProductName = "Nagas",
-                IsPhysicalProduct = true,
-                IsMembershipProduct = false,
-                IsVideoProduct = false,
-                IsBookProduct = true,
-                ProductPrice = 900,
-                ProductMembershipType = ""
-            };
-            products.Add(p);
-
-            p = new Product
-            {
-                ProductId = 4,
-                ProductName = "Activate Membership",
-                IsPhysicalProduct = false,
-                IsMembershipProduct = true,
-                IsVideoProduct = false,
-                IsBookProduct = false,
-                ProductPrice = 500,
-                ProductMembershipType = "Activate"
-            };
-            products.Add(p);
-
-            p = new Product
-            {
-                ProductId = 5,
-                ProductName = "Upgrade Membership",
-                IsPhysicalProduct = false,
-                IsMembershipProduct = true,
-                IsVideoProduct = false,
-                IsBookProduct = false,
-                ProductPrice = 100,
-                ProductMembershipType = "Upgrade"
-            };
-            products.Add(p);
-
-            p = new Product
-            {
-                ProductId = 6,
-                ProductName = "Learning to Ski",
-                IsPhysicalProduct = true,
-                IsMembershipProduct = false,
-                IsVideoProduct = true,
-                IsBookProduct = false,
-                ProductPrice = 200,
-                ProductMembershipType = ""
-            };
-            products.Add(p);
-
-            p = new Product
-            {
-                ProductId = 7,
-                ProductName = "First Aid",
-                IsPhysicalProduct = true,
-                IsMembershipProduct = false,
-                IsVideoProduct = true,
-                IsBookProduct = false,
-                ProductPrice = 50,
-                ProductMembershipType = ""
-            };
-            products.Add(p);
-
-            p = new Product
-            {
-                ProductId = 8,
-                ProductName = "Sholay",
-                IsPhysicalProduct = true,
-                IsMembershipProduct = false,
-                IsVideoProduct = true,
-                IsBookProduct = false,
-                ProductPrice = 100,
-                ProductMembershipType = ""
-            };
-            products.Add(p);
-
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Products));
+            Products products = (Products)ser.ReadObject(ms);
             return products;
         }
 
@@ -192,53 +104,19 @@ namespace ProcessOrdersWithRules.Controllers
         /// Here, Just mocked the data
         /// </summary>
         /// <returns>List<Order></returns>
-        private List<Order> FetchOrders()
+        private Orders GetOrders()
         {
-            List<Order> orders = new List<Order>();
-            Order o = new Order
-            {
-                OrderId = 1,
-                OrderNumber = "ABC001",
-                CustomerName = "Steve",
-                CustomerDetails = "Address And Mobile",
-                ProductId = 1,
-                Quantity = 2
-            };
-            orders.Add(o);
+            string json = "{\"orders\":[" +
+                "{\"OrderId\":1,\"OrderNumber\":\"ABC001\",\"CustomerName\":\"Steve\",\"CustomerDetails\":\"Address And Mobile\",\"ProductId\":1,\"Quantity\":2}," +
+                "{\"OrderId\":2,\"OrderNumber\":\"XYZ123\",\"CustomerName\":\"Darren\",\"CustomerDetails\":\"Address And Mobile\",\"ProductId\":4,\"Quantity\":1}," +
+                "{\"OrderId\":3,\"OrderNumber\":\"ABC456\",\"CustomerName\":\"James\",\"CustomerDetails\":\"Address And Mobile\",\"ProductId\":6,\"Quantity\":1}," +
+                "{\"OrderId\":4,\"OrderNumber\":\"PQR789\",\"CustomerName\":\"Mark\",\"CustomerDetails\":\"Address And Mobile\",\"ProductId\":8,\"Quantity\":1}]}";
 
-            o = new Order
-            {
-                OrderId = 2,
-                OrderNumber = "XYZ123",
-                CustomerName = "Darren",
-                CustomerDetails = "Address And Mobile",
-                ProductId = 4,
-                Quantity = 1
-            };
-            orders.Add(o);
+            MemoryStream ms = new MemoryStream(System.Text.ASCIIEncoding.ASCII.GetBytes(json));
+            ms.Position = 0;
 
-            o = new Order
-            {
-                OrderId = 3,
-                OrderNumber = "ABC456",
-                CustomerName = "James",
-                CustomerDetails = "Address And Mobile",
-                ProductId = 6,
-                Quantity = 1
-            };
-            orders.Add(o);
-
-            o = new Order
-            {
-                OrderId = 4,
-                OrderNumber = "PQR789",
-                CustomerName = "Mark",
-                CustomerDetails = "Address And Mobile",
-                ProductId = 8,
-                Quantity = 1
-            };
-            orders.Add(o);
-
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Orders));
+            Orders orders = (Orders)ser.ReadObject(ms);
             return orders;
         }
 
@@ -275,7 +153,7 @@ namespace ProcessOrdersWithRules.Controllers
             if (p.IsVideoProduct && p.ProductName == "Learning to Ski")
             {
                 Product p1 = new Product();
-                p1 = FetchProducts().FirstOrDefault(x => x.ProductName == "First Aid");
+                p1 = GetProducts().products.FirstOrDefault(x => x.ProductName == "First Aid");
                 products.Add(p1);
             }
             exq.Products = products;
